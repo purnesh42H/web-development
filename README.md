@@ -1,3 +1,3 @@
-# Nginx Config files
+# Nginx Config Files
 - [Main](config/purneshdixit.stream)
-- [hw01](config/hw01.purneshdixit.stream)
+- [HW01](config/hw01.purneshdixit.stream)
