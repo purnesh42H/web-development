@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Task2</title>
+	</head>
+<body>
+	<div class="heading">
+		<h1>
+			<span id = "number">10</span>
+			<input id="alert" type="button" value="Alert" onclick="display();" />
+			<input id="increment" type="button" value="Increment" onclick="increment();" />
+			<input id="append" type="button" value="Append" onclick="append();" />
+		</h1>
+	</div>
+	
+	<script>
+	function display() {
+		alert(document.getElementById("number").innerHTML);
+	}
+	
+	function increment() {
+		var current = parseInt(document.getElementById("number").innerHTML);
+		document.getElementById("number").innerHTML = current + 1
+	}
+	
+	function append() {
+		var current = parseInt(document.getElementById("number").innerHTML);
+		var body = document.getElementsByTagName("body")[0];
+		
+		var newParagraph = document.createElement("p");
+		newParagraph.innerHTML = current;
+		
+		body.appendChild(newParagraph);
+	}
+	</script>
+</body>
+</html>
