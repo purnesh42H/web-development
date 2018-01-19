@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zxx">
+	<head>
+		<meta charset="utf-8">
+		<title>Task3</title>
+		<style>
+			.heading {
+				text-align:center;
+			}
+			
+			.left {
+				float:left;
+				width:30%;
+			}
+			
+			.right {
+				float:right;
+				width:70%;
+			}
+			
+			.clickable:hover {
+				color: green;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+<body>
+	<div id= "main">
+		<div class="heading">
+			<h1>HW03 Task Three</h1>
+		</div>
+		<div class="left">
+			<h3 class="clickable" id="loren_ipsem" onclick="displayLoren();">Lorem Ipsem</h3>
+			<h3 class="clickable" id="99_bottles" onclick="display99Bottles();">99 Bottles</h3>
+			<h3 class="clickable" id="last_thing" onclick="displayLastThing();">Last Thing</h3>
+		</div>
+		<div class="right">
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		</div>
+	</div>
+	
+	<script>
+		function removeChildren(element) {
+			while (element.firstChild) {
+			    element.removeChild(element.firstChild);
+			}
+		}
+		
+		function displayLoren() {	
+			var div = document.getElementsByClassName("right")[0];
+			removeChildren(div);
+			
+			for (var i = 0; i < 4; i++) {
+				var paragraph1 = document.createElement("p");
+				paragraph1.innerHTML = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+				div.appendChild(paragraph1);
+			}
+		}
+		
+		function display99Bottles() {
+			var div = document.getElementsByClassName("right")[0];
+			removeChildren(div);
+			
+			var bottle = 99;
+			while (bottle > 95) {
+				var paragraph1 = document.createElement("p");
+				paragraph1.innerHTML = bottle.toString() + " bottles of beer on the wall, " + bottle.toString() +" bottles of beer.<br>Take one down and pass it around, "+ (bottle-1).toString() +" bottles of beer on the wall";
+				div.appendChild(paragraph1);
+				bottle--;
+			}
+		}
+		
+		function displayLastThing() {
+			var div = document.getElementsByClassName("right")[0];
+			removeChildren(div);
+			
+			var paragraph1 = document.createElement("p");
+			paragraph1.innerHTML = "this is the third thing";
+			
+			div.appendChild(paragraph1);
+		}
+	</script>
+</body>
+</html>
