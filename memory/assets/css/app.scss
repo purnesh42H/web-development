@@ -6,5 +6,17 @@
 h1 { text-align: center; }
 
 .game-col {
-	background-color: orange
+  height: 100%;
+  background-color: orange;
+  border: 1px solid green;
+}
+
+.game-col-matched {
+  height: 100%;
+  background-color: green;
+  border: 1px solid black;
+}
+
+.game-row {
+  height: 20px;
 }
