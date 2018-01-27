@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-export default function init(root) {
+export default function game_init(root) {
   ReactDOM.render(<MemoryGame />, root);
 }
 
@@ -48,63 +48,49 @@ class MemoryGame extends React.Component {
   
   render() {
 	  return (
-	        <div className="row">
-	          <div className="col-3 game-col">
-	            <p>A</p>
+                <div>
+	        <div className="row game-row">
+	            <div className="col-3 game-col">
+		    </div>
+	            <div className="col-3 game-col">
+	            </div>
+	            <div className="col-3 game-col">
+	            </div>
+	            <div className="col-3 game-col">
+	            </div>
 	          </div>
-	          <div className="col-3 game-col">
-	            <p>A</p>
-	          </div>
-	          <div className="col-3 game-col">
-	            <p>A</p>
-	          </div>
-	          <div className="col-3 game-col">
-	            <p>A</p>
-	          </div>
-	        </div>
-	        <div className="row">
-	          <div className="col-3 game-col">
-	            <p>A</p>
-	          </div>
-	          <div className="col-3 game-col">
-	            <p>A</p>
-	          </div>
-	          <div className="col-3 game-col">
-	            <p>A</p>
-	          </div>
-	          <div className="col-3 game-col">
-	            <p>A</p>
-	          </div>
-	        </div>
-	        <div className="row">
-	          <div className="col-3 game-col">
-	            <p>A</p>
-	          </div>
-	          <div className="col-3 game-col">
-	            <p>A</p>
-	          </div>
-	          <div className="col-3 game-col">
-	            <p>A</p>
-	          </div>
-	          <div className="col-3 game-col">
-	            <p>A</p>
-	          </div>
-	        </div>
-	        <div className="row">
-	          <div className="col-3 game-col">
-	            <p>A</p>
-	          </div>
-	          <div className="col-3 game-col">
-	            <p>A</p>
-	          </div>
-	          <div className="col-3 game-col">
-	            <p>A</p>
-	          </div>
-	          <div className="col-3 game-col">
-	            <p>A</p>
-	          </div>
-	        </div>
-	 	);
+                  <div className="row game-row">
+		    <div className="col-3 game-col">
+                    </div>
+                    <div className="col-3 game-col">
+                    </div>
+                    <div className="col-3 game-col">
+                    </div>
+                    <div className="col-3 game-col">
+                    </div>
+		  </div>
+                  <div className="row game-row">
+                    <div className="col-3 game-col">
+                    </div>
+                    <div className="col-3 game-col">
+                    </div>
+                    <div className="col-3 game-col">
+                    </div>
+                    <div className="col-3 game-col">
+                    </div>
+                  </div>
+                  <div className="row game-row">
+                    <div className="col-3 game-col">
+                    </div>
+                    <div className="col-3 game-col">
+                    </div>
+                    <div className="col-3 game-col">
+                    </div>
+                    <div className="col-3 game-col">
+                    </div>
+                  </div>
+		</div>
+    )
   }
 }
 
