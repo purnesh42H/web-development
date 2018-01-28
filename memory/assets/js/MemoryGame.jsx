@@ -58,8 +58,8 @@ class MemoryGame extends React.Component {
   }
     
   render() {
-    let tile_list = _.map(this.state.tiles, (id, letter, hidden, matched) => {
-	        return <Tile id={id} click={this.toggleVisibility.bind(this)} id={id} hidden={hidden} matched={matched} />;
+    let tile_list = _.map(this.state.tiles, (tile, ii) => {
+	        return <Tile tile={tile} toggleVisibility={this.toggleVisibility.bind(this)} key={ii} />;
 	});
     return (
 	  <div className="row game-row">
@@ -70,22 +70,23 @@ class MemoryGame extends React.Component {
 }
 
 function Tile(params) {
-  if (params.matched) {
+  let item = params.tile;
+  if (item.matched) {
     return (
 	  <div className="col-3 game-col-matched">
-	    <p id = {params.id}></p>
+	    <p id = {item.id}></p>
       </div>
 	)
-  } else if (params.hidden) {
+  } else if (item.hidden) {
     return (
-	  <div className="col-3 game-col" onclick={() => params.click(params.id)}>
-	    <p id = {params.id}></p>
+	  <div className="col-3 game-col" onClick={() => params.toggleVisibility(item.id)}>
+	    <p id = {item.id}></p>
       </div>
     ) 
   } else {
       return (
   	  <div className="col-3 game-col">
-  	    <p id = {params.id}>{params.letter}</p>
+  	    <p id = {item.id}>{item.letter}</p>
       </div>
     )
   }
