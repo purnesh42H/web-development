@@ -12,7 +12,7 @@ class MemoryGame extends React.Component {
   }
 
   reset() {
-    this.state = {
+    var state = {
       tiles: [{
   			id: "t1", letter: 'D', hidden: true, matched: false
   		}, {
@@ -46,8 +46,9 @@ class MemoryGame extends React.Component {
   	  }, {
   			id: "t16", letter: 'A', hidden: true, matched: false
   	  }],
-      clicks: 0;
+      clicks: 0
     }
+    this.setState({tiles: state.tiles, clicks: state.clicks});
   }
 
   toggleVisibility(id) {
@@ -58,7 +59,7 @@ class MemoryGame extends React.Component {
 			  return tile;
 	    }
 	 });
-	 this.setState({ tiles: xs });
+	 this.setState({ tiles: xs, clicks: this.state.clicks });
   }
 
   getActiveTile() {
@@ -76,7 +77,7 @@ class MemoryGame extends React.Component {
   }
 
   incrementClicks() {
-    this.setState({clicks: this.state.clicks + 1});
+    this.setState({tile: this.state.tiles, clicks: this.state.clicks + 1});
   }
 
   matchTile(id, letter) {
@@ -116,8 +117,8 @@ class MemoryGame extends React.Component {
 	    <div className="row game-row">
 	      { tile_list }
 	    </div>
-      <ClickCount root={this} />
-      <Reset reset={this.reset.bind(this) />
+      <ClickCount clicks={this.state.clicks} />
+      <Reset reset={this.reset.bind(this)} />
     </div>
     )
   }
@@ -126,18 +127,18 @@ class MemoryGame extends React.Component {
 function ClickCount(params) {
   return (
     <div>
-      <p><b>No. of clicks/b></p>
-      <p>{params.root.state.clicks}</p>
-    </div>;
+      <p><b>No. of clicks</b></p>
+      <p>{params.clicks}</p>
+    </div>
   )
 }
 
 function Reset(params) {
   return (
     <div>
-      <p><b>Reset/b></p>
+      <p><b>Reset</b></p>
       <button id="reset" onClick={params.reset}>Reset</button>
-    </div>;
+    </div>
   )
 }
 
