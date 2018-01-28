@@ -150,22 +150,21 @@ class MemoryGame extends React.Component {
       return <Tile tile={tile} matchTile={this.matchTile.bind(this)} key={ii} />;
 	});
   return (
-    <div>
+	<div>
 	    <div className="row game-row">
 	      { tile_list }
 	    </div>
       <ClickCount clicks={this.state.clicks} />
       <Reset reset={this.reset.bind(this)} />
-    </div>
-    )
+    </div> 
+   )
   }
 }
 
 function ClickCount(params) {
-  return (
+   return (
     <div>
       <p><b>No. of clicks</b></p>
-      <p>{params.clicks}</p>
     </div>
   )
 }
@@ -173,7 +172,6 @@ function ClickCount(params) {
 function Reset(params) {
   return (
     <div>
-      <p><b>Reset</b></p>
       <button id="reset" onClick={params.reset}>Reset</button>
     </div>
   )
