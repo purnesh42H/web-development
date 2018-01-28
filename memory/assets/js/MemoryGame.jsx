@@ -45,21 +45,23 @@ class MemoryGame extends React.Component {
     }
   }
 
-  toggleVisibility() {
+  toggleVisibility(id) {
     let xs = _.map(this.state.tiles, (tile) => {
 	  	if (tile.id == id) {
 	    	return _.extend(tile, {hidden: false});
 	    } else {
-			return tile;
+			  return tile;
 	    }
 	 });
 	 this.setState({ tiles: xs });
   }
 
-  isCorrectGuess(id, letter) {
-    var active = _.find(this.state.tiles, (tile) => {
+  getActiveTile() {
+    return _.find(this.state.tiles, (tile) => {
       return hidden == false;
     });
+  }
+  isCorrectGuess(id, active) {
     var guess = _.find(this.state.tiles, (tile) => {
       return tile.id == id;
     });
@@ -68,22 +70,26 @@ class MemoryGame extends React.Component {
   }
   matchTile(id, letter) {
     this.toggleVisibility(id);
-    correct = this.isCorrectGuess(id, letter);
+    active = this.getActiveTile();
+    
+    if (active) {
+      correct = this.isCorrectGuess(id, active);
 
-    let xs = _.map(this.state.tiles, (tile) => {
-	  	if (correct) {
-        if (tile.id == guess.id || tile.id == active.id) {
-	    	  return _.extend(tile, { matched: true, hidden: true });
+      let xs = _.map(this.state.tiles, (tile) => {
+  	  	if (correct) {
+          if (tile.id == guess.id || tile.id == active.id) {
+  	    	  return _.extend(tile, { matched: true, hidden: true });
+          }
+  	    } else {
+          if (tile.id == active.id || tile.id == active.id) {
+            return _.extend(tile, { hidden: true });
+          } else {
+            return tile;
+          }
         }
-	    } else {
-        if (tile.id == active.id || tile.id == active.id) {
-          return _.extend(tile, { hidden: true });
-        } else {
-          return tile;
-        }
-      }
-	  });
-    setTimeout(function() { this.setState({tiles: xs}); }.bind(this), 1000);
+  	  });
+      setTimeout(function() { this.setState({tiles: xs}); }.bind(this), 1000);
+    }
   }
 
   render() {
@@ -108,7 +114,7 @@ function Tile(params) {
 	)
   } else if (item.hidden) {
     return (
-	  <div className="col-3 game-col" onClick={() => params.matchTile(item.id, this.letter)}>
+	  <div className="col-3 game-col" onClick={() => params.matchTile(item.id, item.letter)}>
 	    <p id = {item.id}></p>
     </div>
     )
