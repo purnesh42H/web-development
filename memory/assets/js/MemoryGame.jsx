@@ -71,7 +71,7 @@ class MemoryGame extends React.Component {
   }
   matchTile(id, letter) {
     var active = this.getActiveTile();
-    this.toggleVisibility(id);    
+    this.toggleVisibility(id);
     if (active) {
       var guess = this.getGuess(id);
       var correct = guess.letter == active.letter;
@@ -91,7 +91,7 @@ class MemoryGame extends React.Component {
           }
         }
   	  });
-      this.setState({tiles: xs});
+      setTimeout(function() { this.setState({tiles: xs}); }.bind(this), 1000);
     }
   }
 
