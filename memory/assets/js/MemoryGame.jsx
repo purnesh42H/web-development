@@ -8,7 +8,11 @@ export default function game_init(root) {
 class MemoryGame extends React.Component {
 	constructor(props) {
   	super(props);
-  	this.state = {
+  	this.reset();
+  }
+
+  reset() {
+    this.state = {
       tiles: [{
   			id: "t1", letter: 'D', hidden: true, matched: false
   		}, {
@@ -41,7 +45,8 @@ class MemoryGame extends React.Component {
   		  id: "t15", letter: 'B', hidden: true, matched: false
   	  }, {
   			id: "t16", letter: 'A', hidden: true, matched: false
-  	  }]
+  	  }],
+      clicks: 0;
     }
   }
 
@@ -69,9 +74,16 @@ class MemoryGame extends React.Component {
 
     return guess;
   }
+
+  incrementClicks() {
+    this.setState({clicks: this.state.clicks + 1});
+  }
+
   matchTile(id, letter) {
+    this.incrementClicks();
     var active = this.getActiveTile();
     this.toggleVisibility(id);
+
     if (active) {
       var guess = this.getGuess(id);
       var correct = guess.letter == active.letter;
@@ -100,11 +112,33 @@ class MemoryGame extends React.Component {
       return <Tile tile={tile} matchTile={this.matchTile.bind(this)} key={ii} />;
 	});
   return (
-	  <div className="row game-row">
-	    { tile_list }
-	  </div>
+    <div>
+	    <div className="row game-row">
+	      { tile_list }
+	    </div>
+      <ClickCount root={this} />
+      <Reset reset={this.reset.bind(this) />
+    </div>
     )
   }
+}
+
+function ClickCount(params) {
+  return (
+    <div>
+      <p><b>No. of clicks/b></p>
+      <p>{params.root.state.clicks}</p>
+    </div>;
+  )
+}
+
+function Reset(params) {
+  return (
+    <div>
+      <p><b>Reset/b></p>
+      <button id="reset" onClick={params.reset}>Reset</button>
+    </div>;
+  )
 }
 
 function Tile(params) {
