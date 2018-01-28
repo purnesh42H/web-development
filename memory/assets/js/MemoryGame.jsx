@@ -41,14 +41,14 @@ class MemoryGame extends React.Component {
   		  id: "t15", letter: 'B', hidden: true, matched: false
   	  }, {
   			id: "t16", letter: 'A', hidden: true, matched: false
-  	  }];
+  	  }]
     }
   }
 
   toggleVisibility(id) {
     let xs = _.map(this.state.tiles, (tile) => {
 	  	if (tile.id == id) {
-	    	return _.extend(tile, {hidden: false});
+	    	return {id: tile.id, letter: tile.letter, matched: tile.matched, hidden: false};
 	    } else {
 			  return tile;
 	    }
@@ -58,37 +58,40 @@ class MemoryGame extends React.Component {
 
   getActiveTile() {
     return _.find(this.state.tiles, (tile) => {
-      return hidden == false;
+      return tile.hidden == false;
     });
   }
-  isCorrectGuess(id, active) {
+
+  getGuess(id) {
     var guess = _.find(this.state.tiles, (tile) => {
       return tile.id == id;
     });
 
-    return guess.letter == active.letter;
+    return guess;
   }
   matchTile(id, letter) {
-    this.toggleVisibility(id);
-    active = this.getActiveTile();
-    
+    var active = this.getActiveTile();
+    this.toggleVisibility(id);    
     if (active) {
-      correct = this.isCorrectGuess(id, active);
+      var guess = this.getGuess(id);
+      var correct = guess.letter == active.letter;
 
       let xs = _.map(this.state.tiles, (tile) => {
   	  	if (correct) {
           if (tile.id == guess.id || tile.id == active.id) {
-  	    	  return _.extend(tile, { matched: true, hidden: true });
-          }
+  	    	  return { id: tile.id, letter: tile.letter,  matched: true, hidden: true };
+         } else {
+           return tile;
+         }
   	    } else {
           if (tile.id == active.id || tile.id == active.id) {
-            return _.extend(tile, { hidden: true });
+            return { id: tile.id, letter: tile.letter, matched: false, hidden: true };
           } else {
             return tile;
           }
         }
   	  });
-      setTimeout(function() { this.setState({tiles: xs}); }.bind(this), 1000);
+      this.setState({tiles: xs});
     }
   }
 
