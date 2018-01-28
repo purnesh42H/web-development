@@ -2,52 +2,51 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 export default function game_init(root) {
-  	ReactDOM.render(<MemoryGame />, root);
+  ReactDOM.render(<MemoryGame />, root);
 }
 
 class MemoryGame extends React.Component {
-  	constructor(props) {
-    	super(props);
-    	this.state = { 
-			tiles: [{
-				id: "t1", letter: 'D', hidden: true, matched: false
-			}, {
-	  			id: "t2", letter: 'H', hidden: true, matched: false
-	 	  	}, {
-	  			id: "t3", letter: 'B', hidden: true, matched: false
-	  		}, {
-	  			id: "t4", letter: 'E', hidden: true, matched: false
-	  		}, {
-	  			id: "t5", letter: 'C', hidden: true, matched: false
-	  		}, {
-	  			id: "t6", letter: 'C', hidden: true, matched: false
-	  		}, {
-	  			id: "t7", letter: 'E', hidden: true, matched: false
-	  	  	}, {
-	  			id: "t8", letter: 'G', hidden: true, matched: false
-	  	  	}, {
-				id: "t9", letter: 'F', hidden: true, matched: false
-	  	  	}, {
-	  			id: "t10", letter: 'G', hidden: true, matched: false
-	  	  	}, {
-	  	  		id: "t11", letter: 'H', hidden: true, matched: false
-	  	  	}, {
-	  			id: "t12", letter: 'F', hidden: true, matched: false
-	  	  	}, {
-	  			id: "t13", letter: 'D', hidden: true, matched: false
-	 	   	}, {
-	  			id: "t14", letter: 'A', hidden: true, matched: false
-	  	  	}, {
-	  			id: "t15", letter: 'B', hidden: true, matched: false
-	  	  	}, {
-	  			id: "t16", letter: 'A', hidden: true, matched: false
-	  	  	}
-		]
+	constructor(props) {
+  	super(props);
+  	this.state = {
+      tiles: [{
+  			id: "t1", letter: 'D', hidden: true, matched: false
+  		}, {
+  			id: "t2", letter: 'H', hidden: true, matched: false
+ 	  	}, {
+  			id: "t3", letter: 'B', hidden: true, matched: false
+  		}, {
+  			id: "t4", letter: 'E', hidden: true, matched: false
+  		}, {
+  			id: "t5", letter: 'C', hidden: true, matched: false
+  		}, {
+  			id: "t6", letter: 'C', hidden: true, matched: false
+  		}, {
+  			id: "t7", letter: 'E', hidden: true, matched: false
+  	  }, {
+  			id: "t8", letter: 'G', hidden: true, matched: false
+  	  }, {
+			  id: "t9", letter: 'F', hidden: true, matched: false
+  	  }, {
+  		  id: "t10", letter: 'G', hidden: true, matched: false
+  	  }, {
+	  		id: "t11", letter: 'H', hidden: true, matched: false
+  	  }, {
+  		  id: "t12", letter: 'F', hidden: true, matched: false
+  	  }, {
+  			id: "t13", letter: 'D', hidden: true, matched: false
+ 	   	}, {
+  		  id: "t14", letter: 'A', hidden: true, matched: false
+  	  }, {
+  		  id: "t15", letter: 'B', hidden: true, matched: false
+  	  }, {
+  			id: "t16", letter: 'A', hidden: true, matched: false
+  	  }];
     }
   }
-  
-  toggleVisibility(id) {
-	  let xs = _.map(this.state.tiles, (tile) => {
+
+  toggleVisibility() {
+    let xs = _.map(this.state.tiles, (tile) => {
 	  	if (tile.id == id) {
 	    	return _.extend(tile, {hidden: false});
 	    } else {
@@ -56,14 +55,44 @@ class MemoryGame extends React.Component {
 	 });
 	 this.setState({ tiles: xs });
   }
-    
+
+  isCorrectGuess(id, letter) {
+    var active = _.find(this.state.tiles, (tile) => {
+      return hidden == false;
+    });
+    var guess = _.find(this.state.tiles, (tile) => {
+      return tile.id == id;
+    });
+
+    return guess.letter == active.letter;
+  }
+  matchTile(id, letter) {
+    this.toggleVisibility(id);
+    correct = this.isCorrectGuess(id, letter);
+
+    let xs = _.map(this.state.tiles, (tile) => {
+	  	if (correct) {
+        if (tile.id == guess.id || tile.id == active.id) {
+	    	  return _.extend(tile, { matched: true, hidden: true });
+        }
+	    } else {
+        if (tile.id == active.id || tile.id == active.id) {
+          return _.extend(tile, { hidden: true });
+        } else {
+          return tile;
+        }
+      }
+	  });
+    setTimeout(function() { this.setState({tiles: xs}); }.bind(this), 1000);
+  }
+
   render() {
     let tile_list = _.map(this.state.tiles, (tile, ii) => {
-	        return <Tile tile={tile} toggleVisibility={this.toggleVisibility.bind(this)} key={ii} />;
+      return <Tile tile={tile} matchTile={this.matchTile.bind(this)} key={ii} />;
 	});
-    return (
+  return (
 	  <div className="row game-row">
-	    { tile_list }  
+	    { tile_list }
 	  </div>
     )
   }
@@ -75,20 +104,19 @@ function Tile(params) {
     return (
 	  <div className="col-3 game-col-matched">
 	    <p id = {item.id}></p>
-      </div>
+    </div>
 	)
   } else if (item.hidden) {
     return (
-	  <div className="col-3 game-col" onClick={() => params.toggleVisibility(item.id)}>
+	  <div className="col-3 game-col" onClick={() => params.matchTile(item.id, this.letter)}>
 	    <p id = {item.id}></p>
-      </div>
-    ) 
+    </div>
+    )
   } else {
-      return (
+    return (
   	  <div className="col-3 game-col">
   	    <p id = {item.id}>{item.letter}</p>
       </div>
     )
   }
 }
-
