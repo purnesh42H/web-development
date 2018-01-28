@@ -96,7 +96,7 @@ class MemoryGame extends React.Component {
 			  return tile;
 	    }
 	 });
-	 this.setState({ tiles: xs, clicks: this.state.clicks });
+	 this.setState({ tiles: xs, clicks: this.state.clicks + 1 });
   }
 
   getActiveTile() {
@@ -113,12 +113,7 @@ class MemoryGame extends React.Component {
     return guess;
   }
 
-  incrementClicks() {
-    this.setState({tile: this.state.tiles, clicks: this.state.clicks + 1});
-  }
-
   matchTile(id, letter) {
-    this.incrementClicks();
     var active = this.getActiveTile();
     this.toggleVisibility(id);
 
@@ -162,7 +157,7 @@ class MemoryGame extends React.Component {
 function ClickCount(params) {
    return (
     <div className="col-6">
-      <p><b>No. of clicks</b></p>
+      <p><b>No. of clicks: </b>{params.clicks}</p>
     </div>
   )
 }
@@ -170,7 +165,7 @@ function ClickCount(params) {
 function Reset(params) {
   return (
     <div className="col-6">
-      <button id="reset" onClick={params.reset}>Reset</button>
+      <button id="reset" onClick={params.reset}>Restart</button>
     </div>
   )
 }
