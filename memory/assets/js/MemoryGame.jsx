@@ -9,7 +9,7 @@ class MemoryGame extends React.Component {
 	constructor(props) {
   	super(props);
   	this.state = {
-      tiles: [{
+      tiles: _.shuffle([{
   			id: "t1", letter: 'D', hidden: true, matched: false
   		}, {
   			id: "t2", letter: 'H', hidden: true, matched: false
@@ -41,7 +41,7 @@ class MemoryGame extends React.Component {
   		  id: "t15", letter: 'B', hidden: true, matched: false
   	  }, {
   			id: "t16", letter: 'A', hidden: true, matched: false
-  	  }],
+  	  }]),
       clicks: 0
     }
   }
@@ -51,7 +51,7 @@ class MemoryGame extends React.Component {
 
     }
     this.setState({
-      tiles: [{
+      tiles: _.shuffle([{
   			id: "t1", letter: 'D', hidden: true, matched: false
   		}, {
   			id: "t2", letter: 'H', hidden: true, matched: false
@@ -83,7 +83,7 @@ class MemoryGame extends React.Component {
   		  id: "t15", letter: 'B', hidden: true, matched: false
   	  }, {
   			id: "t16", letter: 'A', hidden: true, matched: false
-  	  }],
+  	  }]),
       clicks: 0
     });
   }
