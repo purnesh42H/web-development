@@ -1,4 +1,13 @@
-# Memory
+# Memory Game
+Play the memory game to test your memory [here](memory.purneshdixit.stream)
+- Initially, the letters associated with the tiles are hidden.
+- Clicking on a tile should expose it's associated letter.
+- Clicking on a second tile is a guess that it matches the value of the first tile.
+- Each tile have an associated value: A letter in the range A-H.
+- Each letter value is associated with exactly two tiles.
+- Once the guess is resolved, no non-completed tile values will be exposed, and the you can click another first tile to guess about.
+- The number of clicks to match all the pairs (complete all the tiles) is tracked. Less clicks is a better score at the game.
+
 
 ## Development Instructions
 
