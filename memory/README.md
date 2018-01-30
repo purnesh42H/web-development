@@ -1,5 +1,5 @@
 # Memory Game
-Play the memory game to test your memory [here](memory.purneshdixit.stream)
+Play the memory game to test your memory [here](http://memory.purneshdixit.stream)
 - Initially, the letters associated with the tiles are hidden.
 - Clicking on a tile should expose it's associated letter.
 - Clicking on a second tile is a guess that it matches the value of the first tile.
