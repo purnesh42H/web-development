@@ -1,7 +1,4 @@
 defmodule Calc do
-  defstruct op_stack: []
-  defstruct num_stack: []
-
   @moduledoc """
   Documentation for Calc.
   """
@@ -19,7 +16,6 @@ defmodule Calc do
   def parse(line) do
     line
     |> String.split()
-    |> String.to_charlist
   end
 
   def eval(line) do
@@ -29,23 +25,19 @@ defmodule Calc do
   end
 
   def create_stacks(char_list) do
-    n = length(char_list)
-    char_list
-    |> stack_push(n, [], [])
+    stack_push((tl char_list), length(char_list) - 1, [], [], (hd char_list))
   end
 
-  def stack_push(char_list, n, op_stack, num_stack) when n == 0
-    {op_stack, num_stack}
+  def stack_push(char_list, n, op_stack, num_stack, char) when n == 0 do
+    {op_stack, num_stack ++ [char]}
   end
 
-  def stack_push(char_list, n, op_stack, num_stack) when char == '*' or char == '-' or char == '+' or char == '/' do
-    op_stack ++ [hd char_list]
-    stack_push(tl char_list, n - 1, op_stack, num_stack)
+  def stack_push(char_list, n, op_stack, num_stack, char) when char == "*" or char == "-" or char == "+" or char == "/" do
+    stack_push((tl char_list), n - 1, op_stack ++ [char], num_stack, (hd char_list))
   end
 
-  def stack_push(char_list, n, op_stack, num_stack) do
-    num_stack ++ [hd char_list]
-    stack_push(tl char_list, n - 1, op_stack, num_stack)
+  def stack_push(char_list, n, op_stack, num_stack, char) do
+    stack_push((tl char_list), n - 1, op_stack, num_stack ++ [char], (hd char_list))
   end
 
   def main() do
