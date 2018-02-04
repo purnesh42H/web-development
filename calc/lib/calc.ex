@@ -24,11 +24,11 @@ defmodule Calc do
     3
   end
 
-  def expression_list(char_list, new_list, symbol, ")") do
+  def expression_list(char_list, n, new_list, symbol, first) when first == ")"  do
     expression_list((tl char_list), n - 1, new_list ++ [String.trim(symbol, ")"), ")"], (hd char_list), String.first(hd char_list))
   end
 
-  def expression_list(char_list, new_list, symbol, "(") do
+  def expression_list(char_list, n, new_list, symbol, first) when first == "(" do
     expression_list((tl char_list), n - 1, new_list ++ ["(", String.trim(symbol, "(")], (hd char_list), String.first(hd char_list))
   end
 
@@ -36,13 +36,12 @@ defmodule Calc do
     expression_list((tl char_list), n - 1, new_list ++ [symbol], (hd char_list), String.first(hd char_list))
   end
 
-  def expression_list(char_list, n, new_list, symbol) do when n < 0
-    new_list
+  def expression_list(char_list, n, new_list, symbol, first) when n == 0 do
+    new_list ++ [symbol]
   end
 
   def separate_bracks(char_list) do
-    char_list
-    |> expression_list(char_list, [])
+    expression_list((tl char_list), length(char_list) - 1, [], (hd char_list), String.first(hd char_list))
   end
 
   def parse(line) do
