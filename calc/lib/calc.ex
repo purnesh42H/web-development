@@ -12,9 +12,17 @@ defmodule Calc do
       :world
 
   """
-  def get_precedence(char) when char == "+" or char == "-" do: 1
-  def get_precedence(char) when char == "*" or char == "/" do: 2
-  def get_precedence(char) when char == "(" or char == ")" do: 3
+  def get_precedence(char) when char == "+" or char == "-" do
+    1
+  end
+
+  def get_precedence(char) when char == "*" or char == "/" do
+    2
+  end
+
+  def get_precedence(char) when char == "(" or char == ")" do
+    3
+  end
 
   def expression_list(char_list, new_list, symbol, ")") do
     expression_list((tl char_list), n - 1, new_list ++ [String.trim(symbol, ")"), ")"], (hd char_list), String.first(hd char_list))
