@@ -24,39 +24,16 @@ defmodule Calc do
     3
   end
 
-  def expression_list(char_list, n, new_list, symbol, first, last) when n == 0 and last == ")" do
-    IO.puts "hi"
-    new_list ++ [String.trim(symbol, ")"), ")"]
-  end
-
-  def expression_list(char_list, n, new_list, symbol, first, last) when n == 0  do
-    new_list ++ [symbol]
-  end
-
-  def expression_list(char_list, n, new_list, symbol, first, last) when last == ")"  do
-    expression_list((tl char_list), n - 1, new_list ++ [String.trim(symbol, ")"), ")"],
-    (hd char_list), String.first(hd char_list), String.last(hd char_list))
-  end
-
-  def expression_list(char_list, n, new_list, symbol, first, last) when first == "(" do
-    expression_list((tl char_list), n - 1, new_list ++ ["(", String.trim(symbol, "(")],
-    (hd char_list), String.first(hd char_list), String.last(hd char_list))
-  end
-
-  def expression_list(char_list, n, new_list, symbol, first, last) do
-    expression_list((tl char_list), n - 1, new_list ++ [symbol],
-    (hd char_list), String.first(hd char_list), String.last(hd char_list))
-  end
-
-  def separate_bracks(char_list) do
-    expression_list((tl char_list), length(char_list) - 1, [],
-    (hd char_list), String.first(hd char_list), String.last(hd char_list))
+  def separate_bracks(str) do
+    str
+    |> String.replace("(", "( ")
+    |> String.replace(")", " )")
   end
 
   def parse(line) do
     line
-    |> String.split()
     |> separate_bracks()
+    |> String.split()
   end
 
   def eval(line) do
