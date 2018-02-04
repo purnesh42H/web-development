@@ -16,16 +16,16 @@ defmodule Calc do
   def get_precedence(char) when char == "*" or char == "/" do: 2
   def get_precedence(char) when char == "(" or char == ")" do: 3
 
-  def expression_list(char_list, new_list, symbol <> ")") do
-    expression_list((tl char_list), n - 1, new_list ++ [symbol, ")"], (hd char_list))
+  def expression_list(char_list, new_list, symbol, ")") do
+    expression_list((tl char_list), n - 1, new_list ++ [String.trim(symbol, ")"), ")"], (hd char_list), String.first(hd char_list))
   end
 
-  def expression_list(char_list, new_list, "(" <> symbol) do
-    expression_list((tl char_list), n - 1, new_list ++ ["(", symbol], (hd char_list))
+  def expression_list(char_list, new_list, symbol, "(") do
+    expression_list((tl char_list), n - 1, new_list ++ ["(", String.trim(symbol, "(")], (hd char_list), String.first(hd char_list))
   end
 
-  def expression_list(char_list, n, new_list, symbol) do
-    expression_list((tl char_list), n - 1, new_list ++ [symbol], (hd char_list))
+  def expression_list(char_list, n, new_list, symbol, first) do
+    expression_list((tl char_list), n - 1, new_list ++ [symbol], (hd char_list), String.first(hd char_list))
   end
 
   def expression_list(char_list, n, new_list, symbol) do when n < 0
