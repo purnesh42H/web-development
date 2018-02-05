@@ -5,3 +5,5 @@
 # Memory Game
 - [Source Code](memory/)
 - [Nginx config file](config/memory.purneshdixit.stream)
+# Elixir calculator
+- [Source Code](calc/)
