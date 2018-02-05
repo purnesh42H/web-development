@@ -48,6 +48,35 @@ defmodule Calc do
   end
 
   defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+    when (head_char == ")") and exp_len == 0 do
+    (hd num_stack)
+  end
+
+  defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+    when (head_char == ")") do
+      last_op = List.last(op_stack)
+      if (last_op == "(") do
+        (paran, op_stack) = List.pop_at(op_stack, -1)
+      	calculate((tl expression_list), exp_len - 1,
+          num_stack, num_len, op_stack, op_len - 1, (hd expression_list))
+      else
+        {op2, num_stack} = List.pop_at(num_stack, -1)
+        {op1, num_stack} = List.pop_at(num_stack, -1)
+        {operator, op_stack} = List.pop_at(op_stack, -1)
+        res = operate(op1, op2, operator)
+        num_stack = num_stack ++ [res]
+        calculate(expression_list, exp_len,
+        num_stack, num_len - 1, op_stack, op_len - 1, head_char)
+      end
+  end
+
+  defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+    when (head_char == "(") do
+      calculate((tl expression_list), exp_len - 1,
+      num_stack, num_len, op_stack ++ [head_char], op_len + 1, (hd expression_list))
+  end
+
+  defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when exp_len ==  0 and num_len == 1 and op_len == 1 do
       {op2, decimal} = Integer.parse(head_char)
       op1 = hd num_stack
@@ -81,7 +110,7 @@ defmodule Calc do
       last_op = List.last(op_stack)
       if (head_char == "*" or head_char == "/") and (last_op == "+" or last_op == "-") do
       	calculate((tl expression_list), exp_len - 1,
-          num_stack, num_len, op_stack ++ [head_char], op_len + 1, (hd expression_list)) 
+          num_stack, num_len, op_stack ++ [head_char], op_len + 1, (hd expression_list))
       else
         {op2, num_stack} = List.pop_at(num_stack, -1)
         {op1, num_stack} = List.pop_at(num_stack, -1)
