@@ -56,12 +56,14 @@ defmodule Calc do
       operate(op1, op2, (hd op_stack))
   end
 
-  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char) when head_char == "+" and op_len == 0 do
+  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+    when (head_char == "+" or head_char == "-" or head_char == "*" or head_char == "/")  and op_len == 0 do
       calculate((tl expression_list), exp_len - 1,
       num_stack, num_len, op_stack ++ [head_char], op_len + 1, (hd expression_list))
   end
 
-  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char) when head_char == "+" do
+  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+    when (head_char == "+" or head_char == '-') do
       op2 = (hd num_stack)
       op1 = (hd (tl num_stack))
       res = operate(op1, op2, (hd op_stack))
@@ -72,7 +74,7 @@ defmodule Calc do
   end
 
 
-  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)  do 
+  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)  do
     {int, decimal} = Integer.parse(head_char)
     calculate((tl expression_list), exp_len - 1,
       num_stack ++ [int], num_len + 1, op_stack, op_len, (hd expression_list))
