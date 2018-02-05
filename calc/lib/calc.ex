@@ -48,15 +48,13 @@ defmodule Calc do
   end
 
   defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
-    when (head_char == ")") and exp_len == 0 do
-    (hd num_stack)
-  end
-
-  defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
-    when (head_char == ")") do
+    when head_char == ")" do
       last_op = List.last(op_stack)
-      if (last_op == "(") do
-        (paran, op_stack) = List.pop_at(op_stack, -1)
+      IO.inspect num_stack
+      IO.inspect exp_len
+      IO.inspect op_stack
+      if last_op == "(" do
+        {paran, op_stack} = List.pop_at(op_stack, -1)
       	calculate((tl expression_list), exp_len - 1,
           num_stack, num_len, op_stack, op_len - 1, (hd expression_list))
       else
@@ -108,7 +106,7 @@ defmodule Calc do
   defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when (head_char == "+" or head_char == "-" or head_char == "*" or head_char == "/") do
       last_op = List.last(op_stack)
-      if (head_char == "*" or head_char == "/") and (last_op == "+" or last_op == "-") do
+      if last_op == "(" or ((head_char == "*" or head_char == "/") and (last_op == "+" or last_op == "-"))  do
       	calculate((tl expression_list), exp_len - 1,
           num_stack, num_len, op_stack ++ [head_char], op_len + 1, (hd expression_list))
       else
