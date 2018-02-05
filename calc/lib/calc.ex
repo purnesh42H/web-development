@@ -8,9 +8,6 @@ defmodule Calc do
 
   ## Examples
 
-      iex> Calc.hello
-      :world
-
   """
   def separate_bracks(str) do
     str
