@@ -50,20 +50,35 @@ defmodule Calc do
     evaluate(op1, op2, operator)
   end
 
-  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char) when exp_len ==  0 do
+  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+    when exp_len <=  0 and num_len == 1 and op_len == 1 do
       {op2, decimal} = Integer.parse(head_char)
       op1 = hd num_stack
       operate(op1, op2, (hd op_stack))
   end
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
-    when (head_char == "+" or head_char == "-" or head_char == "*" or head_char == "/")  and op_len == 0 do
-      calculate((tl expression_list), exp_len - 1,
-      num_stack, num_len, op_stack ++ [head_char], op_len + 1, (hd expression_list))
+    when exp_len ==  0 do
+    {op2, decimal} = Integer.parse(head_char)
+    op1 = (hd (tl num_stack))
+    res = operate(op1, op2, (hd op_stack))
+    num_stack = (tl num_stack) ++ [res]
+    calculate((tl expression_list), exp_len - 1,
+      num_stack, num_len - 2, (tl op_stack), op_len - 1, (hd expression_list))
   end
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
-    when (head_char == "*" or head_char == "/") and ((hd op_stack) == "+" or (hd op_stack) == "-") do
+    when exp_len < 0 do
+    op1 = (hd num_stack)
+    op2 = (hd (tl num_stack))
+    res = operate(op1, op2, (hd op_stack))
+    num_stack = (tl (tl num_stack)) ++ [res]
+    calculate(expression_list, exp_len,
+      num_stack, num_len - 2, (tl op_stack), op_len - 1, head_char)
+  end
+
+  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+    when (head_char == "+" or head_char == "-" or head_char == "*" or head_char == "/")  and op_len == 0 do
       calculate((tl expression_list), exp_len - 1,
       num_stack, num_len, op_stack ++ [head_char], op_len + 1, (hd expression_list))
   end
@@ -77,6 +92,12 @@ defmodule Calc do
       op_stack = (tl op_stack) ++ [head_char]
       calculate((tl expression_list), exp_len - 1,
         num_stack, num_len - 2, op_stack, op_len, (hd expression_list))
+  end
+
+  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+    when (head_char == "*" or head_char == "/") and ((hd op_stack) == "+" or (hd op_stack) == "-") do
+      calculate((tl expression_list), exp_len - 1,
+      num_stack, num_len, op_stack ++ [head_char], op_len + 1, (hd expression_list))
   end
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)  do
