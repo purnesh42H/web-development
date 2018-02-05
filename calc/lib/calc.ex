@@ -87,8 +87,6 @@ defmodule Calc do
   defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when head_char == ")" do
       last_op = List.last(op_stack)
-      IO.inspect num_stack
-      IO.inspect op_stack
       if last_op == "(" do
         {paran, op_stack} = List.pop_at(op_stack, -1)
         calculate((tl expression_list), exp_len - 1,
