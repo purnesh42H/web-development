@@ -21,3 +21,6 @@ calc$ mix run -e Calc.main
 
 ## How to test
 calc$ mix test
+
+## Limitations
+- Division is floor division i.e. returns floor value of quotient
