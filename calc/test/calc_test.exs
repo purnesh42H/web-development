@@ -26,6 +26,10 @@ defmodule CalcTest do
     assert Calc.eval("2 / 3 * 5 - 2") == -2
   end
 
+  test "test expr 5 + 6 * 5 / 5 + 5" do
+    assert Calc.eval("5 + 6 * 5 / 5 + 5") == 16
+  end
+
   test "test operate  2, 3, +" do
     assert Calc.operate(2, 3, "+") == 5
   end

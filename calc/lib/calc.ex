@@ -88,21 +88,21 @@ defmodule Calc do
   end
 
   defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
-    when (head_char == "*" or head_char == "/") and ((hd op_stack) == "+" or (hd op_stack) == "-") do
-      calculate((tl expression_list), exp_len - 1,
-      num_stack, num_len, op_stack ++ [head_char], op_len + 1, (hd expression_list))
-  end
-
-  defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when (head_char == "+" or head_char == "-" or head_char == "*" or head_char == "/") do
-      {op2, num_stack} = List.pop_at(num_stack, -1)
-      {op1, num_stack} = List.pop_at(num_stack, -1)
-      {operator, op_stack} = List.pop_at(op_stack, -1)
-      res = operate(op1, op2, operator)
-      num_stack = num_stack ++ [res]
-      op_stack = op_stack ++ [head_char]
-      calculate((tl expression_list), exp_len - 1,
-        num_stack, num_len - 1, op_stack, op_len, (hd expression_list))
+      last_op = List.last(op_stack)
+      if (head_char == "*" or head_char == "/") and (last_op == "+" or last_op == "-") do
+      	calculate((tl expression_list), exp_len - 1,
+          num_stack, num_len, op_stack ++ [head_char], op_len + 1, (hd expression_list))
+      else
+      	{op2, num_stack} = List.pop_at(num_stack, -1)
+      	{op1, num_stack} = List.pop_at(num_stack, -1)
+      	{operator, op_stack} = List.pop_at(op_stack, -1)
+      	res = operate(op1, op2, operator)
+      	num_stack = num_stack ++ [res]
+      	op_stack = op_stack ++ [head_char]
+     	calculate((tl expression_list), exp_len - 1,
+          num_stack, num_len - 1, op_stack, op_len, (hd expression_list))
+      end
   end
 
   defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)  do
