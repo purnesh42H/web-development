@@ -63,7 +63,13 @@ defmodule Calc do
   end
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
-    when (head_char == "+" or head_char == "-") do
+    when (head_char == "*" or head_char == "/") and ((hd op_stack) == "+" or (hd op_stack) == "-") do
+      calculate((tl expression_list), exp_len - 1,
+      num_stack, num_len, op_stack ++ [head_char], op_len + 1, (hd expression_list))
+  end
+
+  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+    when (head_char == "+" or head_char == "-" or head_char == "*" or head_char == "/") do
       op1 = (hd num_stack)
       op2 = (hd (tl num_stack))
       res = operate(op1, op2, (hd op_stack))
