@@ -59,12 +59,14 @@ defmodule Calc do
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when exp_len ==  0 do
+    IO.inspect num_len
+    IO.inspect op_len
     {op2, decimal} = Integer.parse(head_char)
     op1 = (hd (tl num_stack))
     res = operate(op1, op2, (hd op_stack))
     num_stack = (tl num_stack) ++ [res]
     calculate((tl expression_list), exp_len - 1,
-      num_stack, num_len - 2, (tl op_stack), op_len - 1, (hd expression_list))
+      num_stack, num_len - 1, (tl op_stack), op_len - 1, (hd expression_list))
   end
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
@@ -74,7 +76,7 @@ defmodule Calc do
     res = operate(op1, op2, (hd op_stack))
     num_stack = (tl (tl num_stack)) ++ [res]
     calculate(expression_list, exp_len,
-      num_stack, num_len - 2, (tl op_stack), op_len - 1, head_char)
+      num_stack, num_len - 1, (tl op_stack), op_len - 1, head_char)
   end
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
@@ -91,7 +93,7 @@ defmodule Calc do
       num_stack = (tl (tl num_stack)) ++ [res]
       op_stack = (tl op_stack) ++ [head_char]
       calculate((tl expression_list), exp_len - 1,
-        num_stack, num_len - 2, op_stack, op_len, (hd expression_list))
+        num_stack, num_len - 1, op_stack, op_len, (hd expression_list))
   end
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
