@@ -59,53 +59,51 @@ defmodule Calc do
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when exp_len ==  0 do
-    IO.inspect num_len
-    IO.inspect op_len
     {op2, decimal} = Integer.parse(head_char)
     op1 = (hd (tl num_stack))
     res = operate(op1, op2, (hd op_stack))
     num_stack = (tl num_stack) ++ [res]
     calculate((tl expression_list), exp_len - 1,
-      num_stack, num_len - 1, (tl op_stack), op_len - 1, (hd expression_list))
+      Enum.reverse(num_stack), num_len - 1, (tl op_stack), op_len - 1, (hd expression_list))
   end
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when exp_len < 0 do
-    op1 = (hd num_stack)
-    op2 = (hd (tl num_stack))
+    op2 = (hd num_stack)
+    op1 = (hd (tl num_stack))
     res = operate(op1, op2, (hd op_stack))
     num_stack = (tl (tl num_stack)) ++ [res]
     calculate(expression_list, exp_len,
-      num_stack, num_len - 1, (tl op_stack), op_len - 1, head_char)
+      Enum.reverse(num_stack), num_len - 1, (tl op_stack), op_len - 1, head_char)
   end
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when (head_char == "+" or head_char == "-" or head_char == "*" or head_char == "/")  and op_len == 0 do
       calculate((tl expression_list), exp_len - 1,
-      num_stack, num_len, op_stack ++ [head_char], op_len + 1, (hd expression_list))
-  end
-
-  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
-    when (head_char == "+" or head_char == "-" or head_char == "*" or head_char == "/") do
-      op1 = (hd num_stack)
-      op2 = (hd (tl num_stack))
-      res = operate(op1, op2, (hd op_stack))
-      num_stack = (tl (tl num_stack)) ++ [res]
-      op_stack = (tl op_stack) ++ [head_char]
-      calculate((tl expression_list), exp_len - 1,
-        num_stack, num_len - 1, op_stack, op_len, (hd expression_list))
+      num_stack, num_len, Enum.reverse(op_stack ++ [head_char]), op_len + 1, (hd expression_list))
   end
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when (head_char == "*" or head_char == "/") and ((hd op_stack) == "+" or (hd op_stack) == "-") do
       calculate((tl expression_list), exp_len - 1,
-      num_stack, num_len, op_stack ++ [head_char], op_len + 1, (hd expression_list))
+      num_stack, num_len, Enum.reverse(op_stack ++ [head_char]), op_len + 1, (hd expression_list))
+  end
+
+  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+    when (head_char == "+" or head_char == "-" or head_char == "*" or head_char == "/") do
+      op2 = (hd num_stack)
+      op1 = (hd (tl num_stack))
+      res = operate(op1, op2, (hd op_stack))
+      num_stack = (tl (tl num_stack)) ++ [res]
+      op_stack = (tl op_stack) ++ [head_char]
+      calculate((tl expression_list), exp_len - 1,
+        Enum.reverse(num_stack), num_len - 1, Enum.reverse(op_stack), op_len, (hd expression_list))
   end
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)  do
     {int, decimal} = Integer.parse(head_char)
     calculate((tl expression_list), exp_len - 1,
-      num_stack ++ [int], num_len + 1, op_stack, op_len, (hd expression_list))
+      Enum.reverse(num_stack ++ [int]), num_len + 1, op_stack, op_len, (hd expression_list))
   end
 
   def calculator(expression_list) do
