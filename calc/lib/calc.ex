@@ -32,7 +32,7 @@ defmodule Calc do
 
   def evaluate(op1, op2, "+") do
     op1 + op2
-  end  
+  end
 
   def evaluate(op1, op2, "-") do
     op1 - op2
