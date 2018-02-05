@@ -63,16 +63,15 @@ defmodule Calc do
   end
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
-    when (head_char == "+" or head_char == '-') do
-      op2 = (hd num_stack)
-      op1 = (hd (tl num_stack))
+    when (head_char == "+" or head_char == "-") do
+      op1 = (hd num_stack)
+      op2 = (hd (tl num_stack))
       res = operate(op1, op2, (hd op_stack))
       num_stack = (tl (tl num_stack)) ++ [res]
       op_stack = (tl op_stack) ++ [head_char]
       calculate((tl expression_list), exp_len - 1,
         num_stack, num_len - 2, op_stack, op_len, (hd expression_list))
   end
-
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)  do
     {int, decimal} = Integer.parse(head_char)
