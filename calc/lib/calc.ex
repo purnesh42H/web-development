@@ -32,7 +32,7 @@ defmodule Calc do
 
   def evaluate(op1, op2, "+") do
     op1 + op2
-  end
+  end  
 
   def evaluate(op1, op2, "-") do
     op1 - op2
@@ -43,7 +43,7 @@ defmodule Calc do
   end
 
   def evaluate(op1, op2, "/") do
-    Integer.floor_div(op1,  op2)
+    div(op1,  op2)
   end
 
   def operate(op1, op2, operator) do
@@ -69,8 +69,8 @@ defmodule Calc do
     {operator, op_stack} = List.pop_at(op_stack, -1)
     res = operate(op1, op2, operator)
     num_stack = num_stack ++ [res]
-    calculate(expression_list, exp_len,
-      num_stack, num_len, op_stack, op_len - 1, expression_list)
+    calculate(expression_list, exp_len - 1,
+      num_stack, num_len, op_stack, op_len - 1, head_char)
   end
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
@@ -81,7 +81,7 @@ defmodule Calc do
     res = operate(op1, op2, operator)
     num_stack = num_stack ++ [res]
     calculate(expression_list, exp_len,
-      num_stack, num_len - 1, op_stack, op_len - 1, expression_list)
+      num_stack, num_len - 1, op_stack, op_len - 1, head_char)
   end
 
   def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
