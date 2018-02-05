@@ -43,7 +43,7 @@ defmodule Calc do
   end
 
   def evaluate(op1, op2, "/") do
-    op1 / op2
+    Integer.floor_div(op1,  op2)
   end
 
   def operate(op1, op2, operator) do
