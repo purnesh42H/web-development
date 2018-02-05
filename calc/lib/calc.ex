@@ -9,13 +9,13 @@ defmodule Calc do
   ## Examples
 
   """
-  def separate_bracks(str) do
+  defp separate_bracks(str) do
     str
     |> String.replace("(", "( ")
     |> String.replace(")", " )")
   end
 
-  def parse(line) do
+  defp parse(line) do
     line
     |> separate_bracks()
     |> String.split()
@@ -27,19 +27,19 @@ defmodule Calc do
     |> calculator()
   end
 
-  def evaluate(op1, op2, "+") do
+  defp evaluate(op1, op2, "+") do
     op1 + op2
   end
 
-  def evaluate(op1, op2, "-") do
+  defp evaluate(op1, op2, "-") do
     op1 - op2
   end
 
-  def evaluate(op1, op2, "*") do
+  defp evaluate(op1, op2, "*") do
     op1 * op2
   end
 
-  def evaluate(op1, op2, "/") do
+  defp evaluate(op1, op2, "/") do
     div(op1,  op2)
   end
 
@@ -47,19 +47,19 @@ defmodule Calc do
     evaluate(op1, op2, operator)
   end
 
-  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+  defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when exp_len ==  0 and num_len == 1 and op_len == 1 do
       {op2, decimal} = Integer.parse(head_char)
       op1 = hd num_stack
       operate(op1, op2, (hd op_stack))
   end
 
-  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+  defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when exp_len <  0 and num_len == 1 and op_len == 0 do
       (hd num_stack)
   end
 
-  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+  defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when exp_len ==  0 do
     {op2, decimal} = Integer.parse(head_char)
     {op1, num_stack} = List.pop_at(num_stack, -1)
@@ -70,7 +70,7 @@ defmodule Calc do
       num_stack, num_len, op_stack, op_len - 1, head_char)
   end
 
-  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+  defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when exp_len < 0 do
     {op2, num_stack} = List.pop_at(num_stack, -1)
     {op1, num_stack} = List.pop_at(num_stack, -1)
@@ -81,19 +81,19 @@ defmodule Calc do
       num_stack, num_len - 1, op_stack, op_len - 1, head_char)
   end
 
-  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+  defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when (head_char == "+" or head_char == "-" or head_char == "*" or head_char == "/")  and op_len == 0 do
       calculate((tl expression_list), exp_len - 1,
       num_stack, num_len, op_stack ++ [head_char], op_len + 1, (hd expression_list))
   end
 
-  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+  defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when (head_char == "*" or head_char == "/") and ((hd op_stack) == "+" or (hd op_stack) == "-") do
       calculate((tl expression_list), exp_len - 1,
       num_stack, num_len, op_stack ++ [head_char], op_len + 1, (hd expression_list))
   end
 
-  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
+  defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)
     when (head_char == "+" or head_char == "-" or head_char == "*" or head_char == "/") do
       {op2, num_stack} = List.pop_at(num_stack, -1)
       {op1, num_stack} = List.pop_at(num_stack, -1)
@@ -105,13 +105,13 @@ defmodule Calc do
         num_stack, num_len - 1, op_stack, op_len, (hd expression_list))
   end
 
-  def calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)  do
+  defp calculate(expression_list, exp_len, num_stack, num_len, op_stack, op_len, head_char)  do
     {int, decimal} = Integer.parse(head_char)
     calculate((tl expression_list), exp_len - 1,
       num_stack ++ [int], num_len + 1, op_stack, op_len, (hd expression_list))
   end
 
-  def calculator(expression_list) do
+  defp calculator(expression_list) do
     calculate((tl expression_list), length(expression_list) - 1,
     [], 0, [], 0, (hd expression_list))
   end
