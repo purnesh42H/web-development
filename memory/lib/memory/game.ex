@@ -44,12 +44,6 @@ defmodule Memory.Game do
     end
   end
 
-  def get_active_tile(tiles) do
-    Enum.find tiles, fn(tile) ->
-      Map.fetch!(tile, :hidden) == false
-    end
-  end
-
   def toggle_visibility(tiles, id) do
     Enum.map tiles, fn tile ->
       if Map.fetch!(tile, :id) == id do
@@ -73,8 +67,6 @@ defmodule Memory.Game do
   end
 
   def tiles_after_match(tiles, guess, active, is_correct_match?) do
-    IO.inspect active
-    IO.inspect guess
     Enum.map tiles, fn tile ->
       if Map.fetch!(guess, :id) != Map.fetch!(active, :id) and
         (Map.fetch!(tile, :id) == Map.fetch!(active, :id) or
@@ -87,9 +79,9 @@ defmodule Memory.Game do
     end
   end
 
-  def matchTile(tiles, guess_id) do
-    active = get_active_tile(tiles)
+  def matchTile(tiles, guess_id, active_id) do
     guess = get_guess_tile(tiles, guess_id)
+    active = get_guess_tile(tiles, active_id)
     tiles
     |> tiles_after_match(guess, active, Map.fetch!(active, :letter) == Map.fetch!(guess, :letter))
   end
@@ -101,9 +93,9 @@ defmodule Memory.Game do
     }
   end
 
-  def guess(game, id) do
+  def guess(game, id, active) do
     tiles = game.tiles
-    |> matchTile(id)
+    |> matchTile(id, active)
     Map.put(game, :tiles, tiles)
   end
 

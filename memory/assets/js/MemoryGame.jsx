@@ -23,7 +23,7 @@ class MemoryGame extends React.Component {
         tiles: view.game.tiles,
         clicks: view.game.clicks
        });
-     }.bind(this), 500);
+     }.bind(this), 1000);
   }
 
   gotView(view) {
@@ -47,7 +47,7 @@ class MemoryGame extends React.Component {
   gotViewMatch(view, guess_id, active) {
     this.gotView(view);
     if (active) {
-      this.channel.push("guess", { id: guess_id })
+      this.channel.push("guess", { id: guess_id, active: active, active: active.id })
         .receive("ok", this.gotViewDelay.bind(this));
     }
   }
@@ -57,7 +57,7 @@ class MemoryGame extends React.Component {
   }
 
   toggleVisibility(id) {
-    let active = this.getActiveTile(id);
+    let active = this.getActiveTile();
     this.channel.push("flip", { id: id })
       .receive("ok", res => {
       this.gotViewMatch(res, id, active);
