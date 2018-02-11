@@ -19,14 +19,28 @@ import "phoenix_html";
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+import socket from "./socket";
 
 import game_init from "./MemoryGame";
 
+function form_init() {
+  let channel = socket.channel("games:demo", {});
+  channel.join()
+         .receive("ok", resp => { console.log("Joined successfully", resp) })
+         .receive("error", resp => { console.log("Unable to join", resp) });
+}
+
 function init() {
   let root = document.getElementById('game');
-  game_init(root);
+  if (root) {
+    let channel = socket.channel("games:" + window.gameName, {});
+    game_init(root, channel);
+  }
+}
+
+if (document.getElementById('index-page')) {
+    form_init();
 }
 
 // Use jQuery to delay until page loaded.
 $(init);
-
