@@ -39,25 +39,26 @@ defmodule Memory.Game do
   end
 
   def client_view(game) do
-    tiles = game.tiles;
-    clicks: game.clicks;
-    %{
-      tiles: game.tiles,
-      clicks: game.clicks
-    }
+     %{
+	tiles: game.tiles,
+	clicks: game.clicks
+     }
   end
 
-  def guess(game, id) {
-    game
+  def guess(game, id) do
+    tiles = game.tiles
     |> toggleVisibility(id)
-  }
+    Map.put(game, :tiles, tiles)
+  end
 
-  def toggleVisibility(id) {
-    Enum.map game.tiles, fn tile ->
+  def toggleVisibility(tiles, id) do
+    Enum.map tiles, fn tile ->
       if Map.fetch!(tile, :id) == id do
         tile
         |> Map.put(:hidden, false)
+      else
+ 	tile
       end
     end
-  }
+  end
 end
