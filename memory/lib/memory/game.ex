@@ -63,9 +63,9 @@ defmodule Memory.Game do
 
   def tiles_after_match(tiles, guess, active, is_correct_match?) when is_correct_match? == false do
     Enum.map tiles, fn tile ->
-      if Map.fetch!(tile, :id) == Map.fetch!(active, :id) do
+      if Map.fetch!(tile, :id) == Map.fetch!(active, :id) or Map.fetch!(tile, :id) == Map.fetch!(guess, :id) do
         Map.put(tile, :hidden, true)
-        |> Map.put(:matched: false)
+        |> Map.put(:matched, false)
       else
         tile
       end
@@ -73,11 +73,13 @@ defmodule Memory.Game do
   end
 
   def tiles_after_match(tiles, guess, active, is_correct_match?) do
+    IO.inspect active
+    IO.inspect guess
     Enum.map tiles, fn tile ->
-      if Map.fetch!(tile, :id) == Map.fetch!(active, :id) ||
+      if Map.fetch!(tile, :id) == Map.fetch!(active, :id) or
           Map.fetch!(tile, :id) == Map.fetch!(guess, :id) do
             Map.put(tile, :hidden, true)
-            |> Map.put(:matched: true)
+            |> Map.put(:matched, true)
       else
         tile
       end
@@ -87,11 +89,8 @@ defmodule Memory.Game do
   def matchTile(tiles, guess_id) do
     active = get_active_tile(tiles)
     guess = get_guess_tile(tiles, guess_id)
-    is_correct_match? = Map.fetch!(active, :letter) == Map.fetch!(guess, letter)
-    tiles = tiles
-    |> toggleVisibility(id)
     tiles
-    |> tiles_after_match(guess, active, is_correct_match?)
+    |> tiles_after_match(guess, active, Map.fetch!(active, :letter) == Map.fetch!(guess, :letter))
   end
 
   def client_view(game) do
@@ -103,16 +102,14 @@ defmodule Memory.Game do
 
   def guess(game, id) do
     tiles = game.tiles
-    |> toggle_visibility(id)
     |> matchTile(id)
     Map.put(game, :tiles, tiles)
-    |> Map.put(:clicks, Map.fetch!(game, :clicks, clicks + 1))
   end
 
   def flip(game, id) do
     tiles = game.tiles
     |> toggle_visibility(id)
     Map.put(game, :tiles, tiles)
-    |> Map.put(:clicks, Map.fetch!(game, :clicks, clicks + 1))
+    |> Map.put(:clicks, Map.fetch!(game, :clicks) + 1)
   end
 end
