@@ -13,7 +13,7 @@ class MemoryGame extends React.Component {
       tiles: [],
       clicks: 0
     }
-    this.channel.join
+    this.channel.join()
         .receive("ok", this.gotView.bind(this))
         .receive("error", resp => { console.log("Unable to join", resp) });
   }
@@ -23,7 +23,7 @@ class MemoryGame extends React.Component {
         tiles: view.game.tiles,
         clicks: view.game.clicks
        });
-     }.bind(this), 1000);
+     }.bind(this), 500);
   }
 
   gotView(view) {
@@ -34,7 +34,8 @@ class MemoryGame extends React.Component {
   }
 
   reset() {
-
+    this.channel.push("reset", { id: "t0" })
+        .receive("ok", this.gotViewDelay.bind(this));
   }
 
   getActiveTile() {

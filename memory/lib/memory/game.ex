@@ -114,7 +114,7 @@ defmodule Memory.Game do
     |> Map.put(:clicks, Map.fetch!(game, :clicks) + 1)
   end
 
-  def reset(game) do
+  def reset(game, id) do
   game
   |> Map.put(:tiles, Enum.shuffle([%{
       id: "t1", letter: "D", hidden: true, matched: false
@@ -150,6 +150,5 @@ defmodule Memory.Game do
       id: "t16", letter: "A", hidden: true, matched: false
     }]))
     |> Map.put(:clicks, 0)
-  }
   end
 end
