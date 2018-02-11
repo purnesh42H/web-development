@@ -87,13 +87,8 @@ defmodule Memory.Game do
     is_correct_match? = Map.fetch!(active, :letter) == Map.fetch!(guess, letter)
     tiles = tiles
     |> toggleVisibility(id)
-
-    if active != nil do
-      tiles
-      |> tiles_after_match(guess, active, is_correct_match?)
-    else
-      tiles
-    end
+    tiles
+    |> tiles_after_match(guess, active, is_correct_match?)
   end
 
   def client_view(game) do

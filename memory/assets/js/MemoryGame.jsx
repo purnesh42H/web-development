@@ -64,12 +64,21 @@ class MemoryGame extends React.Component {
     });
   }
 
+  getActiveTile() {
+    return _.find(this.state.tiles, (tile) => {
+      return tile.hidden == false;
+    });
+  }
+
   sendGuess(id) {
+    active = getActiveTile();
     this.toggleVisibility(id);
-    setTimeout(function() {
-      this.channel.push("guess", { id: id })
-        .receive("ok", this.gotView.bind(this));
-    }.bind(this), 1000);
+    if (active) {
+      setTimeout(function() {
+        this.channel.push("guess", { id: id })
+          .receive("ok", this.gotView.bind(this));
+      }.bind(this), 1000);
+    }
   }
 
   toggleVisibility(id) {
