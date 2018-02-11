@@ -20,7 +20,7 @@ class MemoryGame extends React.Component {
 
   gotView(view) {
     this.setState({
-        tiles: _.shuffle(view.game.tiles),
+        tiles: view.game.tiles,
         clicks: view.game.clicks
     });
   }
@@ -62,6 +62,11 @@ class MemoryGame extends React.Component {
   	  }]),
       clicks: 0
     });
+  }
+
+  sendGuess(id) {
+    this.channel.push("guess", { id: id })
+      .receive("ok", this.gotView.bind(this));
   }
 
   toggleVisibility(id) {
@@ -156,7 +161,8 @@ function Tile(params) {
 	)
   } else if (item.hidden) {
     return (
-	  <div className="col-3 game-col" onClick={() => params.matchTile(item.id, item.letter)}>
+	  // <div className="col-3 game-col" onClick={() => params.matchTile(item.id, item.letter)}>
+    <div className="col-3 game-col" onClick={() => params.sendGuess(item.id)}>
 	    <p id = {item.id}></p>
     </div>
     )
