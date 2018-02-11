@@ -18,50 +18,23 @@ class MemoryGame extends React.Component {
         .receive("error", resp => { console.log("Unable to join", resp) });
   }
 
-  gotView(view) {
-    this.setState({
+  gotViewDelay(view) {
+    setTimeout(function() { this.setState({
         tiles: view.game.tiles,
         clicks: view.game.clicks
-    });
+       }); 
+     }.bind(this), 1000);
+  }
+
+  gotView(view) {
+   this.setState({
+        tiles: view.game.tiles,
+        clicks: view.game.clicks
+       });
   }
 
   reset() {
-    this.setState({
-      tiles: _.shuffle([{
-  			id: "t1", letter: 'D', hidden: true, matched: false
-  		}, {
-  			id: "t2", letter: 'H', hidden: true, matched: false
- 	  	}, {
-  			id: "t3", letter: 'B', hidden: true, matched: false
-  		}, {
-  			id: "t4", letter: 'E', hidden: true, matched: false
-  		}, {
-  			id: "t5", letter: 'C', hidden: true, matched: false
-  		}, {
-  			id: "t6", letter: 'C', hidden: true, matched: false
-  		}, {
-  			id: "t7", letter: 'E', hidden: true, matched: false
-  	  }, {
-  			id: "t8", letter: 'G', hidden: true, matched: false
-  	  }, {
-			  id: "t9", letter: 'F', hidden: true, matched: false
-  	  }, {
-  		  id: "t10", letter: 'G', hidden: true, matched: false
-  	  }, {
-	  		id: "t11", letter: 'H', hidden: true, matched: false
-  	  }, {
-  		  id: "t12", letter: 'F', hidden: true, matched: false
-  	  }, {
-  			id: "t13", letter: 'D', hidden: true, matched: false
- 	   	}, {
-  		  id: "t14", letter: 'A', hidden: true, matched: false
-  	  }, {
-  		  id: "t15", letter: 'B', hidden: true, matched: false
-  	  }, {
-  			id: "t16", letter: 'A', hidden: true, matched: false
-  	  }]),
-      clicks: 0
-    });
+	
   }
 
   getActiveTile() {
@@ -70,20 +43,24 @@ class MemoryGame extends React.Component {
     });
   }
 
-  sendGuess(id) {
-    active = getActiveTile();
-    this.toggleVisibility(id);
+  gotViewMatch(view, guess_id, active) {
+    this.gotView(view);
     if (active) {
-      setTimeout(function() {
-        this.channel.push("guess", { id: id })
-          .receive("ok", this.gotView.bind(this));
-      }.bind(this), 1000);
+      this.channel.push("guess", { id: guess_id })
+        .receive("ok", this.gotViewDelay.bind(this));
     }
   }
 
+  sendGuess(id) {
+    this.toggleVisibility(id); 
+  }
+
   toggleVisibility(id) {
+    let active = this.getActiveTile(id);
     this.channel.push("flip", { id: id })
-      .receive("ok", this.gotView.bind(this));
+      .receive("ok", res => {
+      this.gotViewMatch(res, id, active);
+    }); 
   }
 
   render() {
