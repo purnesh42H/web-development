@@ -79,7 +79,7 @@ class MemoryGame extends React.Component {
 
   render() {
     let tile_list = _.map(this.state.tiles, (tile, ii) => {
-      return <Tile tile={tile} matchTile={this.matchTile.bind(this)} key={ii} />;
+      return <Tile tile={tile} sendGuess={this.sendGuess.bind(this)} key={ii} />;
 	});
 
   return (
