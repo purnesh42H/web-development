@@ -65,66 +65,23 @@ class MemoryGame extends React.Component {
   }
 
   sendGuess(id) {
-    this.channel.push("guess", { id: id })
-      .receive("ok", this.gotView.bind(this));
+    this.toggleVisibility(id);
+    setTimeout(function() {
+      this.channel.push("guess", { id: id })
+        .receive("ok", this.gotView.bind(this));
+    }.bind(this), 1000);
   }
 
   toggleVisibility(id) {
-    let xs = _.map(this.state.tiles, (tile) => {
-	  	if (tile.id == id) {
-	    	return {id: tile.id, letter: tile.letter, matched: tile.matched, hidden: false};
-	    } else {
-			  return tile;
-	    }
-	 });
-	 this.setState({ tiles: xs, clicks: this.state.clicks + 1 });
-  }
-
-  getActiveTile() {
-    return _.find(this.state.tiles, (tile) => {
-      return tile.hidden == false;
-    });
-  }
-
-  getGuess(id) {
-    var guess = _.find(this.state.tiles, (tile) => {
-      return tile.id == id;
-    });
-
-    return guess;
-  }
-
-  matchTile(id, letter) {
-    var active = this.getActiveTile();
-    this.toggleVisibility(id);
-
-    if (active) {
-      var guess = this.getGuess(id);
-      var correct = guess.letter == active.letter;
-
-      let xs = _.map(this.state.tiles, (tile) => {
-  	  	if (correct) {
-          if (tile.id == guess.id || tile.id == active.id) {
-  	    	  return { id: tile.id, letter: tile.letter,  matched: true, hidden: true };
-         } else {
-           return tile;
-         }
-  	    } else {
-          if (tile.id == active.id || tile.id == active.id) {
-            return { id: tile.id, letter: tile.letter, matched: false, hidden: true };
-          } else {
-            return tile;
-          }
-        }
-  	  });
-      setTimeout(function() { this.setState({tiles: xs}); }.bind(this), 1000);
-    }
+    this.channel.push("flip", { id: id })
+      .receive("ok", this.gotView.bind(this));
   }
 
   render() {
     let tile_list = _.map(this.state.tiles, (tile, ii) => {
       return <Tile tile={tile} matchTile={this.matchTile.bind(this)} key={ii} />;
 	});
+
   return (
 	    <div className="row game-row">
 	      { tile_list }

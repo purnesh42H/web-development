@@ -36,29 +36,85 @@ defmodule Memory.Game do
     }],
     clicks: 0,
   }
+
+  def get_guess_tile(tiles, id) do
+    Enum.find tiles, fn(tile) ->
+      Map.fetch!(tile, :id) == id
+    end
   end
 
-  def client_view(game) do
-     %{
-	tiles: game.tiles,
-	clicks: game.clicks
-     }
+  def get_active_tile(tiles) do
+    Enum.find tiles, fn(tile) ->
+      Map.fetch!(tile, :hidden) == false
+    end
   end
 
-  def guess(game, id) do
-    tiles = game.tiles
-    |> toggleVisibility(id)
-    Map.put(game, :tiles, tiles)
-  end
-
-  def toggleVisibility(tiles, id) do
+  def toggle_visibility(tiles, id) do
     Enum.map tiles, fn tile ->
       if Map.fetch!(tile, :id) == id do
         tile
         |> Map.put(:hidden, false)
       else
- 	tile
+ 	      tile
       end
     end
+  end
+
+  def tiles_after_match(tiles, guess, active, is_correct_match?) when is_correct_match? == false do
+    Enum.map tiles, fn tile ->
+      if Map.fetch!(tile, :id) == Map.fetch!(active, :id) do
+        Map.put(tile, :hidden, true)
+        |> Map.put(:matched: false)
+      else
+        tile
+      end
+  end
+
+  def tiles_after_match(tiles, guess, active, is_correct_match?) do
+    Enum.map tiles, fn tile ->
+      if Map.fetch!(tile, :id) == Map.fetch!(active, :id) ||
+          Map.fetch!(tile, :id) == Map.fetch!(guess, :id) do
+            Map.put(tile, :hidden, true)
+            |> Map.put(:matched: true)
+      else
+        tile
+      end
+  end
+
+  def matchTile(tiles, guess_id) do
+    active = get_active_tile(tiles)
+    guess = get_guess_tile(tiles, guess_id)
+    is_correct_match? = Map.fetch!(active, :letter) == Map.fetch!(guess, letter)
+    tiles = tiles
+    |> toggleVisibility(id)
+
+    if active != nil do
+      tiles
+      |> tiles_after_match(guess, active, is_correct_match?)
+    else
+      tiles
+    end
+  end
+
+  def client_view(game) do
+    %{
+      	tiles: game.tiles,
+      	clicks: game.clicks
+    }
+  end
+
+  def guess(game, id) do
+    tiles = game.tiles
+    |> toggle_visibility(id)
+    |> matchTile(id)
+    Map.put(game, :tiles, tiles)
+    |> Map.put(:clicks, clicks + 1)
+  end
+
+  def flip(game, id) do
+    tiles = game.tiles
+    |> toggle_visibility(id)
+    Map.put(game, :tiles, tiles)
+    |> Map.put(:clicks, clicks + 1)
   end
 end
