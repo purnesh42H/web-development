@@ -18,6 +18,7 @@ export default function tracker_single_init(store) {
 }
 
 let TrackerSingle = connect((state) => state)((props) => {
+  console.log("Render Tracker", props);
   return (
     <Router>
       <div>
@@ -35,6 +36,11 @@ let TrackerSingle = connect((state) => state)((props) => {
           <Tasks tasks={_.filter(props.tasks, (pp) =>
             match.params.user_id == pp.user.id )
           } />
+        } />
+         <Route path="/tasks/:task_id" render={({match}) =>
+          <TaskForm task={_.filter(props.tasks, (pp) =>
+            match.params.task_id == pp.id )
+          }  />
         } />
       </div>
     </Router>

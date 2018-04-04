@@ -5,12 +5,22 @@ import api from '../api';
 
 function TaskForm(params) {
   console.log("params@PostForm", params);
-
+ 
   function update(ev) {
     let tgt = $(ev.target);
 
     let data = {};
     data[tgt.attr('name')] = tgt.val();
+    let action = {
+      type: 'UPDATE_FORM',
+      data: data,
+    };
+    console.log(action);
+    params.dispatch(action);
+  }
+
+  function update_task(task) {
+    let data = task[0];
     let action = {
       type: 'UPDATE_FORM',
       data: data,
@@ -34,7 +44,11 @@ function TaskForm(params) {
   
   if(params.form.token) {
   let temp_users = _.map(params.users, (uu) => <option key={uu.id} value={uu.id}>{uu.name}</option>);
-  let users = _.union([<option key="" value="">Select an employee</option>], temp_users)
+  let users = _.union([<option key="" value="">Select an employee</option>], temp_users);
+  let task = params.task;
+  //if(task) {
+    //update_task(task);
+ // } 
   return <div style={ {padding: "4ex"} }>
     <h2>New Task</h2>
     <FormGroup>

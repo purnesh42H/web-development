@@ -1,5 +1,6 @@
 import { createStore, combineReducers } from 'redux';
 import deepFreeze from 'deep-freeze';
+import { LOCATION_CHANGE } from 'react-router-redux';
 
 function tasks(state = [], action) {
   switch (action.type) {
@@ -34,7 +35,14 @@ function form(state = empty_form, action) {
     case 'UPDATE_FORM':
       return Object.assign({}, state, action.data);
     case 'CLEAR_FORM':
-      return empty_form;
+      let new_state = {
+        user_id: "",
+        title: "",
+        description: "",
+        minutes: 0,
+        token: state.token
+      }
+      return new_state;
     case 'SET_TOKEN':
       return Object.assign({}, state, action.token);
     default:
