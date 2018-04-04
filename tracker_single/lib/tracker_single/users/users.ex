@@ -104,6 +104,7 @@ defmodule TrackerSingle.Users do
   
   def get_and_auth_user(name, pass) do
     user = Repo.one(from u in User, where: u.name == ^name)
+    IO.inspect user
     Comeonin.Argon2.check_pass(user, pass)
   end
 end

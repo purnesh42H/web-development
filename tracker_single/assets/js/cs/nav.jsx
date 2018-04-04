@@ -51,7 +51,6 @@ function Nav(props) {
    session_info = <LoginForm />
  }
 
-export default function Nav(props) {
   return (
     <nav className="navbar navbar-dark bg-dark navbar-expand">
       <span className="navbar-brand">
