@@ -4,7 +4,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 
 function route_change(state = [], action) {
   switch (action.type) {
-    console.log(state);
+    console.log("route change", state);
     case LOCATION_CHANGE:
       return state;
     default:
@@ -88,7 +88,7 @@ function root_reducer(state0, action) {
   console.log("reducer", action);
   // {posts, users, form} is ES6 shorthand for
   // {posts: posts, users: users, form: form}
-  let reducer = combineReducers({tasks, users, form, token, login});
+  let reducer = combineReducers({tasks, users, form, token, login, route_change});
   let state1 = reducer(state0, action);
   console.log("state1", state1);
   return deepFreeze(state1);
