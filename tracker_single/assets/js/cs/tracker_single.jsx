@@ -8,10 +8,10 @@ import Tasks from './tasks';
 import Users from './users';
 import TaskForm from './task-form';
 
-export default function tracker_single_init() {
+export default function tracker_single_init(store) {
   ReactDOM.render(
     <Provider store={store}>
-      <TrackerSingle />
+      <TrackerSingle state={store.getState()} />
     </Provider>,
     document.getElementById('root'),
   );

@@ -31,7 +31,8 @@ function TaskForm(params) {
     });
   }
 
-  let users = _.map(params.users, (uu) => <option key={uu.id} value={uu.id}>{uu.name}</option>);
+  let temp_users = _.map(params.users, (uu) => <option key={uu.id} value={uu.id}>{uu.name}</option>);
+  let users = _.union([<option key="" value="">Select an employee</option>], temp_users)
   return <div style={ {padding: "4ex"} }>
     <h2>New Task</h2>
     <FormGroup>

@@ -9,7 +9,7 @@ class TheServer {
       success: (resp) => {
         store.dispatch({
           type: 'TASKS_LIST',
-          posts: resp.data,
+          tasks: resp.data,
         });
       },
     });
@@ -34,11 +34,11 @@ class TheServer {
       method: "post",
       dataType: "json",
       contentType: "application/json; charset=UTF-8",
-      data: JSON.stringify({ post: data }),
+      data: JSON.stringify({ task: data }),
       success: (resp) => {
         store.dispatch({
           type: 'ADD_TASK',
-          post: resp.data,
+          task: resp.data,
         });
       },
     });

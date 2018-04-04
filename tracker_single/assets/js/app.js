@@ -17,7 +17,7 @@ import api from './api';
 import tracker_single_init from "./cs/tracker_single";
 
 $(function() {
-  api.request_posts();
+  api.request_tasks();
   api.request_users();
   tracker_single_init(store);
 });
