@@ -20,6 +20,11 @@ let LoginForm = connect(({login}) => {return {login};})((props) => {
    console.log(props.login);
  }
 
+ function register(ev) {
+   api.submit_register(props.login);
+   console.log(props.login);
+ }
+
  return <div className="navbar-text">
    <Form inline>
      <FormGroup>
@@ -31,6 +36,13 @@ let LoginForm = connect(({login}) => {return {login};})((props) => {
               value={props.login.pass} onChange={update} />
      </FormGroup>
      <Button onClick={create_token}>Log In</Button>
+   </Form>
+   <Form inline>
+     <FormGroup>
+       <Input type="email" name="email" placeholder="email"
+              value={props.login.email} onChange={update} />
+     </FormGroup>
+     <Button onClick={register}>Register</Button>
    </Form>
  </div>;
 });

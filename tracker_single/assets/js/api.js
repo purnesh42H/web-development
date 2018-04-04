@@ -56,6 +56,33 @@ class TheServer {
           token: resp,
         });
       },
+      error: (resp) => {
+        alert("Name and Password are mandatory for login");
+      }
+    });
+  }
+  
+  submit_register(data) {
+    let user = JSON.stringify({
+      user: {
+        name: data.name,
+        password_hash: data.pass,
+        email: data.email 
+      },
+    });
+    let cur_obj = this;
+    
+    $.ajax("/api/v1/users", {
+      method: "post",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: user,
+      success: (resp) => {
+        cur_obj.submit_login(data);
+      },
+      error: (resp) => {
+	alert("Name, Password and Email are mandatory for registration");
+      }
     });
   }
 }

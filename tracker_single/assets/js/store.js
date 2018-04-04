@@ -24,8 +24,8 @@ function users(state = [], action) {
 let empty_form = {
   user_id: "",
   title: "",
-	description: "",
-	minutes: 0,
+  description: "",
+  minutes: 0,
   token: ""
 };
 
@@ -33,7 +33,7 @@ function form(state = empty_form, action) {
   switch (action.type) {
     case 'UPDATE_FORM':
       return Object.assign({}, state, action.data);
-		case 'CLEAR_FORM':
+    case 'CLEAR_FORM':
       return empty_form;
     case 'SET_TOKEN':
       return Object.assign({}, state, action.token);
@@ -54,6 +54,7 @@ function token(state = null, action) {
 let empty_login = {
   name: "",
   pass: "",
+  email: "",
 };
 
 function login(state = empty_login, action) {

@@ -23,14 +23,16 @@ function TaskForm(params) {
     api.submit_task(params.form);
     console.log("Should create task");
     console.log(params.form);
+    clear(ev);
   }
 
   function clear(ev) {
-    param.dispatch({
+    params.dispatch({
       type: 'CLEAR_FORM',
     });
   }
-
+  
+  if(params.form.token) {
   let temp_users = _.map(params.users, (uu) => <option key={uu.id} value={uu.id}>{uu.name}</option>);
   let users = _.union([<option key="" value="">Select an employee</option>], temp_users)
   return <div style={ {padding: "4ex"} }>
@@ -49,8 +51,12 @@ function TaskForm(params) {
       <Label for="title">Minutes</Label>
       <Input type="text" name="title" value={params.form.minutes} onChange={update} />
     </FormGroup>
-    <Button onClick={submit} color="primary">Task</Button>
+    <Button onClick={clear} color="primary">Clear</Button>&nbsp;
+    <Button onClick={submit} color="primary">Create</Button>
   </div>;
+  } else {
+    return <div></div>;
+  }
 }
 
 function state2params(state) {
