@@ -2,6 +2,16 @@ import { createStore, combineReducers } from 'redux';
 import deepFreeze from 'deep-freeze';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
+function route_change(state = [], action) {
+  switch (action.type) {
+    console.log(state);
+    case LOCATION_CHANGE:
+      return state;
+    default:
+      return state;
+  }
+}
+
 function tasks(state = [], action) {
   switch (action.type) {
   case 'TASKS_LIST':
