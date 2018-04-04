@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Nav from './nav';
-import Task from './task';
+import Tasks from './tasks';
 import Users from './users';
 import TaskForm from './task-form';
 

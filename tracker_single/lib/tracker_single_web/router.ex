@@ -23,7 +23,7 @@ defmodule TrackerSingleWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-   scope "/api", TrackerSingleWeb do
+   scope "/api/v1", TrackerSingleWeb do
      pipe_through :api
      resources "/users", UserController, except: [:new, :edit]
      resources "/tasks", TaskController, except: [:new, :edit]
