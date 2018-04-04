@@ -1,4 +1,3 @@
-
 defmodule MicroblogWeb.TokenController do
   use MicroblogWeb, :controller
   alias Microblog.Users.User
