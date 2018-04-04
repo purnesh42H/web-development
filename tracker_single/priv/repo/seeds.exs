@@ -15,11 +15,12 @@ defmodule Seeds do
   alias TrackerSingle.Tasks.Task
 
   def run do
+    p = Comeonin.Argon2.hashpwsalt("password1");
     Repo.delete_all(User)
-    a = Repo.insert!(%User{ name: "alice", email: "alice@xyz.com" })
-    b = Repo.insert!(%User{ name: "bob", email: "bob@example.com" })
-    c = Repo.insert!(%User{ name: "carol", email: "carol@some.com" })
-    d = Repo.insert!(%User{ name: "dave", email: "dave@xyz.com" })
+    a = Repo.insert!(%User{ name: "alice", email: "alice@xyz.com" }, password_hash: p)
+    b = Repo.insert!(%User{ name: "bob", email: "bob@example.com" }, password_hash: p)
+    c = Repo.insert!(%User{ name: "carol", email: "carol@some.com" }, password_hash: p)
+    d = Repo.insert!(%User{ name: "dave", email: "dave@xyz.com" }, password_hash: p)
 
     Repo.delete_all(Task)
     Repo.insert!(%Task{ user_id: a.id, title: "sql fix", description: "sql fix", minutes: 0, is_completed: false })
