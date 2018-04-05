@@ -11,6 +11,7 @@ export default function Tasks(params) {
         <th>Description</th>
         <th>Minutes</th>
         <th>Completed</th>
+        <th></th>
       </tr>
       { tasks }
    </tbody>

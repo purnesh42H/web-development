@@ -4,8 +4,8 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 
 function route_change(state = [], action) {
   switch (action.type) {
-    console.log("route change", state);
     case LOCATION_CHANGE:
+      console.log("route change");
       return state;
     default:
       return state;
@@ -43,6 +43,7 @@ let empty_form = {
 function form(state = empty_form, action) {
   switch (action.type) {
     case 'UPDATE_FORM':
+      console.log("Update_Form", action.data);
       return Object.assign({}, state, action.data);
     case 'CLEAR_FORM':
       let new_state = {

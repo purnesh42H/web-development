@@ -12,4 +12,10 @@ defmodule TrackerSingleWeb.TokenController do
       |> render("token.json", user: user, token: token)
     end
   end
+  
+  def create(conn, %{}) do
+      conn
+      |> put_status(:created)
+      |> render("token.json")
+  end
 end

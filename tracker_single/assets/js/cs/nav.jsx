@@ -16,17 +16,21 @@ let LoginForm = connect(({login}) => {return {login};})((props) => {
   }
 
   function create_token(ev) {
-   api.submit_login(props.login);
-   console.log(props.login);
+   if (!props.login.pass) {
+     alert("Password required");
+   } else {
+     api.submit_login(props.login);
+     console.log(props.login);
+   }
  }
 
  function register(ev) {
-   api.submit_register(props.login);
-   console.log(props.login);
- }
-
- function logout(ev) {
-   window.location.reload();
+   if (props.login.pass) {
+     api.submit_register(props.login);
+     console.log(props.login);
+   } else {
+     alert("Password required");
+   }
  }
 
  return <div className="navbar-text">
@@ -53,8 +57,10 @@ let LoginForm = connect(({login}) => {return {login};})((props) => {
 
 let Session = connect(({token}) => {return {token};})((props) => {
  function logout(ev) {
-   window.location.reload();
- }
+   console.log("logout");
+   api.logout();
+ } 
+
  return <div className="navbar-text">
    User id = { props.token.user_id }
    <Button type="button" id="btn-logout" className="btn btn-default btn-xs" onClick={logout}>Log out</Button>

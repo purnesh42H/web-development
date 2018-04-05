@@ -45,6 +45,7 @@ class TheServer {
   }
 
   submit_login(data) {
+    let cur_obj = this;
     $.ajax("/api/v1/token", {
       method: "post",
       dataType: "json",
@@ -55,6 +56,26 @@ class TheServer {
           type: 'SET_TOKEN',
           token: resp,
         });
+        cur_obj.request_users();
+      },
+      error: (resp) => {
+        alert("Name and Password are mandatory for login");
+      }
+    });
+  }
+  
+  logout() {
+    $.ajax("/api/v1/token", {
+      method: "post",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: JSON.stringify({}),
+      success: (resp) => {
+        store.dispatch({
+          type: 'SET_TOKEN',
+          token: resp,
+        });
+        window.location.reload();
       },
       error: (resp) => {
         alert("Name and Password are mandatory for login");
@@ -82,6 +103,41 @@ class TheServer {
       },
       error: (resp) => {
 	alert("Name, Password and Email are mandatory for registration");
+      }
+    });
+  }
+
+  update_task(data) {
+    let task = JSON.stringify({
+      task: data
+    });
+    let cur_obj = this;
+     $.ajax("/api/v1/tasks/" + data.id, {
+      method: "put",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: task,
+      success: (resp) => {
+        cur_obj.request_tasks();
+      },
+      error: (resp) => {
+        alert("error", resp);
+      }
+    });
+  }
+
+  delete_task(data) {
+    console.log(data);
+    let cur_obj = this;
+    $.ajax("/api/v1/tasks/" + data, {
+      method: "delete",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      success: (resp) => {
+        cur_obj.request_tasks();
+      },
+      error: (resp) => {
+        alert("error", resp);
       }
     });
   }
