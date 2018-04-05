@@ -85,7 +85,7 @@ function TaskForm(params) {
         <Label for="description">Description</Label>
         <Input type="text" name="description" value={params.form.description} onChange={update} />
         <Label for="title">Minutes</Label>
-        <Input type="text" name="minutes" value={params.form.minutes} onChange={update} />
+        <Input type="number" min="0" step="15" name="minutes" value={params.form.minutes} onChange={update} />
       </FormGroup>
       <Link to="/" onClick={submit_update} className="btn btn-primary">Update</Link>
       </div>;
@@ -104,7 +104,7 @@ function TaskForm(params) {
         <Label for="description">Description</Label>
         <Input type="text" name="description" value={params.form.description} onChange={update} />
         <Label for="title">Minutes</Label>
-        <Input type="text" name="minutes" value={params.form.minutes} onChange={update} />
+        <Input type="number" min="0" step="15" name="minutes" value={params.form.minutes} onChange={update} />
       </FormGroup>
       <Button onClick={clear} color="primary">Clear</Button>&nbsp;
       <Button onClick={submit} color="primary">Create</Button>
