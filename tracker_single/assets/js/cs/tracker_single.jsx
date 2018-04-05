@@ -18,7 +18,6 @@ export default function tracker_single_init(store) {
 }
 
 let TrackerSingle = connect((state) => state)((props) => {
-  console.log("Render Tracker", props);
   return (
     <Router>
       <div>

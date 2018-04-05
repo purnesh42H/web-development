@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom';
 import api from '../api';
 
 function TaskForm(params) {
-  console.log("params@PostForm", params);
-   
+
   function submit_update(ev) {
     let data = {
       title: params.form.title,
@@ -18,7 +17,7 @@ function TaskForm(params) {
     api.update_task(data);
     clear();
   }
- 
+
   function update(ev) {
     let tgt = $(ev.target);
 
@@ -28,13 +27,11 @@ function TaskForm(params) {
       type: 'UPDATE_FORM',
       data: data,
     };
-    console.log(action);
     params.dispatch(action);
   }
 
   function update_task(task) {
     let data = task[0];
-    console.log("Israel", data);
     let action = {
       type: 'UPDATE_FORM',
       data: {
@@ -46,14 +43,11 @@ function TaskForm(params) {
         user_id: data.user.id
       },
     };
-    console.log(action);
     params.dispatch(action);
   }
 
   function submit(ev) {
     api.submit_task(params.form);
-    console.log("Should create task");
-    console.log(params.form);
     clear(ev);
   }
 
@@ -62,13 +56,13 @@ function TaskForm(params) {
       type: 'CLEAR_FORM',
     });
   }
-  
+
   if(params.form.token) {
     let temp_users = _.map(params.users, (uu) => <option key={uu.id} value={uu.id}>{uu.name}</option>);
     let users = _.union([<option key="" value="">Select an employee</option>], temp_users);
     let task = params.task;
     if(task) {
-      if (params.form.title == "") { 
+      if (params.form.title == "") {
         update_task(task);
       }
       return <div style={ {padding: "4ex"} }>
@@ -89,7 +83,7 @@ function TaskForm(params) {
       </FormGroup>
       <Link to="/" onClick={submit_update} className="btn btn-primary">Update</Link>
       </div>;
-    } else { 
+    } else {
       return <div style={ {padding: "4ex"} }>
       <h2>New Task</h2>
       <FormGroup>
@@ -116,7 +110,6 @@ function TaskForm(params) {
 }
 
 function state2params(state) {
-  console.log("rerender@PostForm", state);
   return {
     form: state.form,
     users: state.users,

@@ -20,14 +20,12 @@ let LoginForm = connect(({login}) => {return {login};})((props) => {
      alert("Password required");
    } else {
      api.submit_login(props.login);
-     console.log(props.login);
    }
  }
 
  function register(ev) {
    if (props.login.pass) {
      api.submit_register(props.login);
-     console.log(props.login);
    } else {
      alert("Password required");
    }
@@ -57,9 +55,8 @@ let LoginForm = connect(({login}) => {return {login};})((props) => {
 
 let Session = connect(({token}) => {return {token};})((props) => {
  function logout(ev) {
-   console.log("logout");
    api.logout();
- } 
+ }
 
  return <div className="navbar-text">
    User id = { props.token.user_id }

@@ -63,7 +63,7 @@ class TheServer {
       }
     });
   }
-  
+
   logout() {
     $.ajax("/api/v1/token", {
       method: "post",
@@ -82,17 +82,17 @@ class TheServer {
       }
     });
   }
-  
+
   submit_register(data) {
     let user = JSON.stringify({
       user: {
         name: data.name,
         password_hash: data.pass,
-        email: data.email 
+        email: data.email
       },
     });
     let cur_obj = this;
-    
+
     $.ajax("/api/v1/users", {
       method: "post",
       dataType: "json",
@@ -127,7 +127,6 @@ class TheServer {
   }
 
   delete_task(data) {
-    console.log(data);
     let cur_obj = this;
     $.ajax("/api/v1/tasks/" + data, {
       method: "delete",
