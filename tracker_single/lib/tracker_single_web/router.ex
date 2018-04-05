@@ -20,12 +20,14 @@ defmodule TrackerSingleWeb.Router do
     get "/users", PageController, :index
     get "/tasks", PageController, :index
     get "/users/:id", PageController, :index
+    get "/tasks/:id", PageController, :index
   end
 
   # Other scopes may use custom stacks.
-   scope "/api", TrackerSingleWeb do
+   scope "/api/v1", TrackerSingleWeb do
      pipe_through :api
      resources "/users", UserController, except: [:new, :edit]
      resources "/tasks", TaskController, except: [:new, :edit]
+     post "/token", TokenController, :create
    end
 end

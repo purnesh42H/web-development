@@ -11,9 +11,16 @@
 //
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
-import "phoenix_html"
-//import tracker_single_init from "./cs/microblog";
-//$(tracker_single_init);
+import "phoenix_html";
+import store from './store';
+import api from './api';
+import tracker_single_init from "./cs/tracker_single";
+
+$(function() {
+  api.request_tasks();
+  api.request_users();
+  tracker_single_init(store);
+});
 // Import local files
 //
 // Local files can be imported directly using relative
