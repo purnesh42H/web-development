@@ -7,5 +7,5 @@
 - [Nginx config file](config/memory.purneshdixit.stream)
 # Elixir calculator
 - [Source Code](calc/)
-# Task tracker single page application
+# Task Tracker single page application
 - [Source Code](tracker_single/)
